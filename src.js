@@ -7,10 +7,12 @@ const registrarMunicipio = (
     numeroHombres,
     numeroRecuperados
 ) => {
-    if ((numeroMujeres + numeroHombres) = numeroCasos) {
-        window.print("Error");
+    if ((numeroMujeres + numeroHombres) == numeroCasos) {
+
+    } else {
+        datos = ["Algeciras", "Huila", "2342", "342", "2000", "2124"];
     }
-    var datos = ["Algeciras", "Huila", "2342", "342", "2000", "2124"];
+
 };
 
 const noticias = [];
