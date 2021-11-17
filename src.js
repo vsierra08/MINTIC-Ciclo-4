@@ -14,7 +14,10 @@ const registrarMunicipio = (
 
 const noticias = [];
 const filtrarEInsertarNoticias = (titulo, contenido, url) => {
-    if (titulo == "coronavirus" || titulo == "covid19") {
+    if (
+        titulo == ("coronavirus" || "covid19") &&
+        contenido == ("coronavirus" || "covid19")
+    ) {
         noticias = [
             "titulo de noticia de covid19",
             "contenido de la noticia de coronavirus",
