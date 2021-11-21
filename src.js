@@ -7,28 +7,37 @@ const registrarMunicipio = (
     numeroHombres,
     numeroRecuperados
 ) => {
-    if (numeroMujeres + numeroHombres == numeroCasos) {} else {
-        datos = ["Algeciras", "Huila", "2342", "342", "2000", "2124"];
+    if (numeroMujeres + numeroHombres > numeroCasos) {
+        throw new Error();
     }
+    var data = {
+        municipio: municipio,
+        departamento: departamento,
+        numeroCasos: numeroCasos,
+        numeroMujeres: numeroMujeres,
+        numeroHombres: numeroHombres,
+        numeroRecuperados: numeroRecuperados,
+    };
+    datos.push(data);
+    localStorage.setItem("datos", JSON.stringify(datos));
 };
-
 const noticias = [];
 const filtrarEInsertarNoticias = (titulo, contenido, url) => {
     if (
-        titulo == ("coronavirus" || "covid19") &&
-        contenido == ("coronavirus" || "covid19")
+        titulo.indexOf("coronavirus") >= 0 ||
+        titulo.indexOf("covid19") >= 0 ||
+        contenido.indexOf("coronavirus") >= 0 ||
+        contenido.indexOf("covid19") >= 0
     ) {
-        noticias = [
-            "titulo de noticia de covid19",
-            "contenido de la noticia de coronavirus",
-            "https://path-to-noticia",
-        ];
+        var o = { titulo: titulo, contenido: contenido, url: url };
+        console.log("Será insertado=>" + titulo + ":" + contenido);
+        noticias.push(o);
+        localStorage.setItem("noticias", JSON.stringify(noticias));
     }
 };
-
 const borrarNoticias = () => {
     noticias.length = 0;
-    localStorage.setItem("noticias", null);
+    localStorage.setItem("noticias", JSON.stringify(noticias));
 };
 module.exports.filtrarEInsertarNoticias = filtrarEInsertarNoticias;
 module.exports.borrarNoticias = borrarNoticias;
