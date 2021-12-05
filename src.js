@@ -1,50 +1,90 @@
-const registrarMunicipio = async(
-    municipio,
-    departamento,
-    numeroCasos,
-    numeroMujeres,
-    numeroHombres,
-    numeroRecuperados
-) => {
-    let response = await fetch(
-        "https://misiontic2022upb.vercel.app/api/epidemiologic-monitor/villages", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                municipio: municipio,
-                departamento: departamento,
-                numeroCasos: numeroCasos,
-                numeroMujeres: numeroMujeres,
-                numeroHombres: numeroHombres,
-                numeroRecuperados: numeroRecuperados,
-            }),
-        }
-    );
-    let result = await response.json();
-    return result;
-};
-const filtrarEInsertarNoticias = async() => {
-    let response = await fetch(
-        "https://misiontic2022upb.vercel.app/api/epidemiologic-monitor/news"
-    );
-    let noticiasAPI = await response.json();
-    const noticiasFiltradas = [];
-    for (let i = 0, h = 0, l = noticiasAPI.length; i < l; i++) {
-        if (
-            noticiasAPI[i].titulo.indexOf("coronavirus") !== -1 ||
-            noticiasAPI[i].titulo.indexOf("covid19") !== -1 ||
-            noticiasAPI[i].contenido.indexOf("coronavirus") !== -1 ||
-            noticiasAPI[i].contenido.indexOf("covid19") !== -1
-        ) {
-            noticiasFiltradas[h] = noticiasAPI[i];
-            h += 1;
-        }
-    }
-    return noticiasFiltradas;
-};
+const express = require("express");
+const app = express();
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.get("/api/epidemiologic-monitor/news", (req, res) => {
+    res.send(news);
+});
+app.get("/api/epidemiologic-monitor/villages", (req, res) => {
+    res.send(villages);
+});
+app.post("/api/epidemiologic-monitor/villages", (req, res) => {
+    console.log(req.body);
+    villages.push(req.body);
+    res.send(villages);
+});
 
-module.exports.filtrarEInsertarNoticias = filtrarEInsertarNoticias;
-module.exports.registrarMunicipio = registrarMunicipio;
+
+var villages = [{
+        "id": 1,
+        "municipio": "Medellín",
+        "departamento": "Antioquia",
+        "numeroCasos": 412988,
+        "numeroMujeres": 220818,
+        "numeroHombres": 192170,
+        "numeroRecuperados": 401502
+    },
+    {
+        "id": 2,
+        "municipio": "Guarne",
+        "departamento": "Antioquia",
+        "numeroCasos": 5210,
+        "numeroMujeres": 2709,
+        "numeroHombres": 2501,
+        "numeroRecuperados": 5065
+    },
+    {
+        "id": 3,
+        "municipio": "Itaguí",
+        "departamento": "Antioquia",
+        "numeroCasos": 49044,
+        "numeroMujeres": 25953,
+        "numeroHombres": 23091,
+        "numeroRecuperados": 48114
+    },
+    {
+        "id": 4,
+        "municipio": "Turbaco",
+        "departamento": "Antioquia",
+        "numeroCasos": 49044,
+        "numeroMujeres": 25953,
+        "numeroHombres": 23091,
+        "numeroRecuperados": 48114
+    },
+    {
+        "id": 5,
+        "municipio": "Bello",
+        "departamento": "Antioquia",
+        "numeroCasos": 49044,
+        "numeroMujeres": 25953,
+        "numeroHombres": 23091,
+        "numeroRecuperados": 48114
+    }
+];
+var news = [{
+        "titulo": "Un título de covid19",
+        "contenido": "cualquier contenido",
+        "url": "http://url/noticia.php"
+    },
+    {
+        "titulo": "Otro título de coronavirus",
+        "contenido": "cualquier contenido",
+        "url": "http://url/noticia.php"
+    },
+    {
+        "titulo": "Otro título de pandemia",
+        "contenido": "cualquier contenido de covid19",
+        "url": "http://url/noticia.php"
+    },
+    {
+        "titulo": "Otro título de futbol",
+        "contenido": "cualquier contenido con Messi",
+        "url": "http://url/noticia.php"
+    },
+    {
+        "titulo": "Otro título de fúlbol",
+        "contenido": "cualquier contenido que dice a a Messi le dió coronavirus",
+        "url": "http://url/noticia.php"
+    }
+];
+module.exports = app;
